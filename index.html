@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scenarie: En ny frivillig rækker ud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --c-yellow: #ffbe50;
+  --c-coral:  #ff7369;
+  --c-blue:   #78b4dc;
+  --c-ink:    #1f2330;
+  --c-ink-soft: #4a5060;
+  --c-paper:  #f6f4ee;
+  --c-paper-2: #ffffff;
+  --c-line:   #e6e2d6;
+  --shadow-sm: 0 1px 2px rgba(31,35,48,.06), 0 2px 6px rgba(31,35,48,.04);
+  --shadow-md: 0 6px 16px rgba(31,35,48,.08), 0 2px 4px rgba(31,35,48,.04);
+  --shadow-lg: 0 18px 40px rgba(31,35,48,.12), 0 4px 10px rgba(31,35,48,.06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--c-paper);
+  color: var(--c-ink);
+  font-family: "Roboto", sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(255,190,80,.18), transparent 32%),
+    radial-gradient(circle at 92% 4%, rgba(120,180,220,.18), transparent 30%),
+    radial-gradient(circle at 88% 96%, rgba(255,115,105,.10), transparent 38%);
+  min-height: 100vh;
+  padding: 32px 20px 80px;
+}
+
+.stage {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* ---------- Header ---------- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--c-ink-soft);
+  margin-bottom: 18px;
+}
+.eyebrow .dot {
+  width: 8px; height: 8px;
+  background: var(--c-coral);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+h1.title {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--c-ink);
+  margin-bottom: 32px;
+}
+h1.title em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--c-coral);
+}
+
+/* ---------- Situation card ---------- */
+.situation {
+  position: relative;
+  background: var(--c-paper-2);
+  border: 1px solid var(--c-line);
+  border-radius: 18px;
+  padding: 28px 30px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 36px;
+  overflow: hidden;
+}
+.situation::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 6px;
+  background: linear-gradient(180deg, var(--c-yellow) 0%, var(--c-coral) 50%, var(--c-blue) 100%);
+}
+.situation .label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--c-ink-soft);
+  margin-bottom: 12px;
+}
+.situation p {
+  margin-bottom: 14px;
+}
+.situation p:last-child { margin-bottom: 0; }
+
+.quote {
+  font-family: "Roboto", sans-serif;
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.4;
+  color: var(--c-ink);
+  padding: 14px 18px;
+  background: linear-gradient(0deg, rgba(255,190,80,.10), rgba(255,190,80,.10));
+  border-left: 3px solid var(--c-yellow);
+  border-radius: 4px;
+  margin: 6px 0;
+}
+
+/* ---------- Prompt ---------- */
+.prompt {
+  font-family: "Roboto", sans-serif;
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 22px;
+}
+
+/* ---------- Choices ---------- */
+.choices {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.choice {
+  position: relative;
+  background: var(--c-paper-2);
+  border: 1.5px solid var(--c-line);
+  border-radius: 16px;
+  padding: 22px 24px 22px 84px;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16.5px;
+  line-height: 1.5;
+  color: var(--c-ink);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  box-shadow: var(--shadow-sm);
+}
+.choice:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(31,35,48,.18);
+}
+.choice:focus-visible {
+  outline: 3px solid var(--c-blue);
+  outline-offset: 3px;
+}
+
+.choice .num {
+  position: absolute;
+  left: 22px;
+  top: 22px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--c-ink);
+}
+.choice[data-color="yellow"] .num { background: var(--c-yellow); }
+.choice[data-color="coral"]  .num { background: var(--c-coral); color: #fff; }
+.choice[data-color="blue"]   .num { background: var(--c-blue);  color: #fff; }
+
+.choice .lead {
+  font-family: "Roboto", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 17px;
+  color: var(--c-ink);
+  margin-bottom: 6px;
+  display: block;
+}
+.choice .quote-text {
+  color: var(--c-ink);
+}
+
+.choice[data-color="yellow"]:hover { border-color: var(--c-yellow); }
+.choice[data-color="coral"]:hover  { border-color: var(--c-coral); }
+.choice[data-color="blue"]:hover   { border-color: var(--c-blue); }
+
+/* ---------- Feedback panel ---------- */
+.feedback-stage {
+  display: none;
+}
+.feedback-stage.active {
+  display: block;
+  animation: fadeUp .45s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.feedback-card {
+  position: relative;
+  background: var(--c-paper-2);
+  border: 1px solid var(--c-line);
+  border-radius: 20px;
+  padding: 32px 32px 28px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+.feedback-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 8px;
+}
+.feedback-card[data-color="yellow"]::before { background: var(--c-yellow); }
+.feedback-card[data-color="coral"]::before  { background: var(--c-coral); }
+.feedback-card[data-color="blue"]::before   { background: var(--c-blue); }
+
+.feedback-card .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+.feedback-card[data-color="yellow"] .badge { background: rgba(255,190,80,.22); color: #8a5a00; }
+.feedback-card[data-color="coral"]  .badge { background: rgba(255,115,105,.18); color: #a8332a; }
+.feedback-card[data-color="blue"]   .badge { background: rgba(120,180,220,.22); color: #2e6c95; }
+
+.feedback-card h2 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: clamp(22px, 3vw, 28px);
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
+}
+
+.feedback-card .your-answer {
+  font-family: "Roboto", sans-serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--c-ink);
+  padding: 14px 18px;
+  background: var(--c-paper);
+  border-radius: 10px;
+  margin-bottom: 22px;
+  border: 1px solid var(--c-line);
+}
+
+.feedback-card h3 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--c-ink-soft);
+  margin-bottom: 10px;
+}
+
+.feedback-card p {
+  margin-bottom: 12px;
+  color: var(--c-ink);
+}
+
+.feedback-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+}
+.feedback-card ul li {
+  position: relative;
+  padding: 10px 0 10px 28px;
+  border-top: 1px dashed var(--c-line);
+  color: var(--c-ink);
+}
+.feedback-card ul li:first-child { border-top: none; }
+.feedback-card ul li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 19px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.feedback-card[data-color="yellow"] ul li::before { background: var(--c-yellow); }
+.feedback-card[data-color="coral"]  ul li::before { background: var(--c-coral); }
+.feedback-card[data-color="blue"]   ul li::before { background: var(--c-blue); }
+
+/* ---------- Reveal (other options) ---------- */
+.reveal-section {
+  margin-top: 8px;
+}
+.reveal-section .reveal-heading {
+  font-family: "Roboto", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: var(--c-ink);
+}
+
+.reveal-item {
+  border: 1px solid var(--c-line);
+  border-radius: 14px;
+  background: var(--c-paper-2);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: box-shadow .2s ease;
+}
+.reveal-item:hover { box-shadow: var(--shadow-sm); }
+
+.reveal-item .toggle {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 16px 20px 16px 64px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 15.5px;
+  color: var(--c-ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  gap: 14px;
+}
+.reveal-item .toggle .num-mini {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+}
+.reveal-item[data-color="yellow"] .num-mini { background: var(--c-yellow); color: var(--c-ink); }
+.reveal-item[data-color="coral"]  .num-mini { background: var(--c-coral);  color: #fff; }
+.reveal-item[data-color="blue"]   .num-mini { background: var(--c-blue);   color: #fff; }
+
+.reveal-item .toggle-label {
+  flex: 1;
+  font-weight: 500;
+}
+.reveal-item .toggle-label em {
+  font-family: "Roboto", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--c-ink-soft);
+  display: block;
+  font-size: 14.5px;
+  margin-top: 2px;
+}
+
+.reveal-item .chevron {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  transition: transform .25s ease;
+  color: var(--c-ink-soft);
+}
+.reveal-item.open .chevron { transform: rotate(180deg); }
+
+.reveal-item .body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s ease;
+}
+.reveal-item.open .body {
+  max-height: 1200px;
+}
+.reveal-item .body-inner {
+  padding: 4px 24px 22px;
+  border-top: 1px dashed var(--c-line);
+  margin-top: 4px;
+}
+.reveal-item .body-inner p { margin: 12px 0 8px; }
+.reveal-item .body-inner ul { list-style: none; padding: 0; margin: 8px 0 0; }
+.reveal-item .body-inner ul li {
+  position: relative;
+  padding: 8px 0 8px 22px;
+  font-size: 15.5px;
+  color: var(--c-ink);
+}
+.reveal-item .body-inner ul li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 16px;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+}
+.reveal-item[data-color="yellow"] .body-inner ul li::before { background: var(--c-yellow); }
+.reveal-item[data-color="coral"]  .body-inner ul li::before { background: var(--c-coral); }
+.reveal-item[data-color="blue"]   .body-inner ul li::before { background: var(--c-blue); }
+
+/* ---------- Restart ---------- */
+.restart-row {
+  margin-top: 36px;
+  display: flex;
+  justify-content: center;
+}
+.restart {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--c-ink);
+  color: var(--c-paper);
+  border: none;
+  padding: 14px 26px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease;
+}
+.restart:hover { transform: translateY(-1px); background: #2c3142; }
+.restart svg { width: 16px; height: 16px; }
+
+/* ---------- Footer note ---------- */
+.note {
+  margin-top: 18px;
+  font-size: 13.5px;
+  color: var(--c-ink-soft);
+  text-align: center;
+  font-style: italic;
+  font-family: "Roboto", sans-serif;
+}
+
+/* ---------- Decorative shapes ---------- */
+.deco {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+.shape-1 {
+  top: -10px;
+  right: -20px;
+  width: 90px;
+  height: 90px;
+  background: var(--c-blue);
+  border-radius: 50%;
+  opacity: .35;
+  filter: blur(2px);
+}
+.shape-2 {
+  bottom: -30px;
+  left: -10px;
+  width: 60px;
+  height: 60px;
+  background: var(--c-yellow);
+  border-radius: 14px;
+  transform: rotate(15deg);
+  opacity: .4;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 540px) {
+  body { padding: 20px 14px 60px; }
+  .situation { padding: 22px 20px; }
+  .feedback-card { padding: 26px 22px 22px; }
+  .choice { padding: 20px 18px 20px 72px; }
+  .choice .num { left: 16px; top: 18px; width: 38px; height: 38px; font-size: 17px; }
+  .reveal-item .toggle { padding: 14px 16px 14px 56px; }
+  .reveal-item .toggle .num-mini { left: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="eyebrow"><span class="dot"></span> Scenarie · Frivilligkoordinator</div>
+  <h1 class="title">En ny frivillig <em>rækker ud</em></h1>
+
+  <!-- SITUATION -->
+  <section class="situation" aria-label="Situation">
+    <div class="label">Situation</div>
+    <p>En frivillig, som kun har været tilknyttet Børnetelefonen i et par måneder, kontakter dig som frivilligkoordinator efter en vagt. Den frivillige fortæller, at nogle samtaler den seneste tid har været særligt udfordrende, og at han/hun er begyndt at føle sig usikker på, om opkaldene bliver håndteret <em>"rigtigt"</em>.</p>
+    <p>Den frivillige afslutter med at sige:</p>
+    <div class="quote">"Jeg er virkelig i tvivl om, hvad jeg skal gøre i de her situationer. Hvad synes du?"</div>
+  </section>
+
+  <!-- CHOICES -->
+  <div id="choice-stage">
+    <p class="prompt">Hvordan vælger du at svare?</p>
+
+    <div class="choices" role="list">
+      <button class="choice" data-color="yellow" data-choice="1" role="listitem">
+        <span class="num">1</span>
+        <span class="lead">"Når du står i den type sager, er det vigtigt, at du gør sådan her …"</span>
+        <span class="quote-text">Du forklarer konkret, hvordan situationerne bør håndteres.</span>
+      </button>
+
+      <button class="choice" data-color="coral" data-choice="2" role="listitem">
+        <span class="num">2</span>
+        <span class="lead">"Hvad tænker du selv, der sker i de samtaler, og hvad har du allerede prøvet?"</span>
+        <span class="quote-text">Du svarer med et åbent, undersøgende spørgsmål.</span>
+      </button>
+
+      <button class="choice" data-color="blue" data-choice="3" role="listitem">
+        <span class="num">3</span>
+        <span class="lead">"Det er helt genkendeligt at have den slags tvivl som ny. Det kunne være en god idé at vende det med en af de mere erfarne frivillige, og så kan vi også tale videre om det sammen."</span>
+        <span class="quote-text">Du anerkender og inviterer fællesskabet ind.</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- FEEDBACK STAGES -->
+  <div id="feedback-stages"></div>
+
+</div>
+
+<script>
+const data = {
+  "1": {
+    color: "yellow",
+    label: "Valgmulighed 1",
+    quote: "\"Når du står i den type sager, er det vigtigt, at du gør sådan her …\"",
+    summary: "Ved at give en konkret løsning bliver du positioneret som ekspert og beslutningstager.",
+    points: [
+      "Du indtager rollen som den, der har overblikket og de rigtige svar.",
+      "Den nye frivillige positioneres som usikker novice, der har brug for tydelig instruktion.",
+      "Det kan skabe tryghed for en ny frivillig, særligt i mødet med svære sager, men kan også fastholde en afhængighed af dig som koordinator."
+    ]
+  },
+  "2": {
+    color: "coral",
+    label: "Valgmulighed 2",
+    quote: "\"Hvad tænker du selv, der sker i de samtaler, og hvad har du allerede prøvet?\"",
+    summary: "Her flytter du ekspertpositionen.",
+    points: [
+      "Du positionerer den frivillige som én, der allerede har erfaringer og refleksioner at bygge videre på, også selvom vedkommende er ny.",
+      "Du positionerer samtidig dig selv som sparringspartner, der støtter refleksion frem for at give løsninger.",
+      "Den frivillige inviteres til at tage ansvar for sin egen faglige udvikling."
+    ]
+  },
+  "3": {
+    color: "blue",
+    label: "Valgmulighed 3",
+    quote: "\"Det er helt genkendeligt at have den slags tvivl som ny. Det kunne være en god idé at vende det med en af de mere erfarne frivillige, og så kan vi også tale videre om det sammen.\"",
+    summary: "Dette svar deler positioneringen mellem flere aktører.",
+    points: [
+      "Du anerkender den frivilliges usikkerhed og forbliver tilgængelig.",
+      "Samtidig positionerer du frivilligfællesskabet som en legitim kilde til viden og støtte.",
+      "Du placerer ikke hele ekspertrollen hos dig selv, men spreder den ud i organisationen."
+    ]
+  }
+};
+
+const choiceStage = document.getElementById("choice-stage");
+const feedbackStages = document.getElementById("feedback-stages");
+
+document.querySelectorAll(".choice").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const id = btn.dataset.choice;
+    showFeedback(id);
+  });
+});
+
+function buildPoints(points) {
+  return "<ul>" + points.map(p => `<li>${p}</li>`).join("") + "</ul>";
+}
+
+function showFeedback(selectedId) {
+  const selected = data[selectedId];
+  const others = Object.keys(data).filter(k => k !== selectedId);
+
+  feedbackStages.innerHTML = `
+    <div class="feedback-stage active">
+      <div class="feedback-card" data-color="${selected.color}">
+        <div class="badge">Du valgte · ${selected.label}</div>
+        <h2>${selected.summary}</h2>
+        <div class="your-answer">${selected.quote}</div>
+        <h3>Positionering</h3>
+        ${buildPoints(selected.points)}
+      </div>
+
+      <div class="reveal-section">
+        <div class="reveal-heading">Se hvad feedbacken havde været på de andre svar</div>
+        ${others.map(id => {
+          const o = data[id];
+          return `
+            <div class="reveal-item" data-color="${o.color}" data-id="${id}">
+              <button class="toggle" aria-expanded="false">
+                <span class="num-mini">${id}</span>
+                <span class="toggle-label">
+                  ${o.label}
+                  <em>${o.quote}</em>
+                </span>
+                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="body">
+                <div class="body-inner">
+                  <p><strong>${o.summary}</strong></p>
+                  ${buildPoints(o.points)}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+
+      <div class="restart-row">
+        <button class="restart" id="restartBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 3-6.7"></path>
+            <polyline points="3 4 3 10 9 10"></polyline>
+          </svg>
+          Start scenariet forfra
+        </button>
+      </div>
+      <div class="note">Der findes ikke ét rigtigt svar. Kun forskellige positioneringer.</div>
+    </div>
+  `;
+
+  // Hide choices
+  choiceStage.style.display = "none";
+
+  // Wire up reveal toggles
+  feedbackStages.querySelectorAll(".reveal-item .toggle").forEach(t => {
+    t.addEventListener("click", () => {
+      const item = t.closest(".reveal-item");
+      const open = item.classList.toggle("open");
+      t.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  });
+
+  // Restart
+  document.getElementById("restartBtn").addEventListener("click", () => {
+    feedbackStages.innerHTML = "";
+    choiceStage.style.display = "";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  // Scroll into view
+  setTimeout(() => {
+    feedbackStages.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 60);
+}
+</script>
+</body>
+</html>
