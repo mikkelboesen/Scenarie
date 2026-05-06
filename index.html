@@ -9,17 +9,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --c-yellow: #ffbe50;
   --c-coral:  #ff7369;
-  --c-blue:   #78b4dc;
-  --c-ink:    #1f2330;
-  --c-ink-soft: #4a5060;
-  --c-paper:  #f6f4ee;
+  --c-coral-soft: rgba(255,115,105,.10);
+  --c-coral-mid:  rgba(255,115,105,.22);
+  --c-ink:    #000000;
+  --c-ink-soft: #4a4a4a;
+  --c-paper:  #ffffff;
   --c-paper-2: #ffffff;
-  --c-line:   #e6e2d6;
-  --shadow-sm: 0 1px 2px rgba(31,35,48,.06), 0 2px 6px rgba(31,35,48,.04);
-  --shadow-md: 0 6px 16px rgba(31,35,48,.08), 0 2px 4px rgba(31,35,48,.04);
-  --shadow-lg: 0 18px 40px rgba(31,35,48,.12), 0 4px 10px rgba(31,35,48,.06);
+  --c-line:   #e8e8e8;
+  --c-line-soft: #f0f0f0;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.04), 0 2px 6px rgba(0,0,0,.03);
+  --shadow-md: 0 4px 14px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,10 +36,7 @@ html, body {
 }
 
 body {
-  background-image:
-    radial-gradient(circle at 12% 8%, rgba(255,190,80,.18), transparent 32%),
-    radial-gradient(circle at 92% 4%, rgba(120,180,220,.18), transparent 30%),
-    radial-gradient(circle at 88% 96%, rgba(255,115,105,.10), transparent 38%);
+  background: var(--c-paper);
   min-height: 100vh;
   padding: 20px 20px 24px;
 }
@@ -77,8 +75,8 @@ h1.title {
   margin-bottom: 22px;
 }
 h1.title em {
-  font-style: italic;
-  font-weight: 500;
+  font-style: normal;
+  font-weight: 700;
   color: var(--c-coral);
 }
 
@@ -87,18 +85,18 @@ h1.title em {
   position: relative;
   background: var(--c-paper-2);
   border: 1px solid var(--c-line);
-  border-radius: 16px;
-  padding: 20px 24px;
+  border-radius: 14px;
+  padding: 26px 26px 22px;
   box-shadow: var(--shadow-sm);
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   overflow: hidden;
 }
 .situation::before {
   content: "";
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 6px;
-  background: linear-gradient(180deg, var(--c-yellow) 0%, var(--c-coral) 50%, var(--c-blue) 100%);
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--c-coral);
 }
 .situation .label {
   font-size: 11px;
@@ -116,12 +114,12 @@ h1.title em {
 .quote {
   font-family: "Roboto", sans-serif;
   font-style: italic;
-  font-size: 19px;
-  line-height: 1.4;
+  font-size: 18px;
+  line-height: 1.45;
   color: var(--c-ink);
   padding: 14px 18px;
-  background: linear-gradient(0deg, rgba(255,190,80,.10), rgba(255,190,80,.10));
-  border-left: 3px solid var(--c-yellow);
+  background: var(--c-coral-soft);
+  border-left: 3px solid var(--c-coral);
   border-radius: 4px;
   margin: 6px 0;
 }
@@ -161,10 +159,10 @@ h1.title em {
 .choice:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
-  border-color: rgba(31,35,48,.18);
+  border-color: var(--c-coral);
 }
 .choice:focus-visible {
-  outline: 3px solid var(--c-blue);
+  outline: 3px solid var(--c-coral);
   outline-offset: 3px;
 }
 
@@ -181,11 +179,15 @@ h1.title em {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
   font-size: 18px;
-  color: var(--c-ink);
+  background: var(--c-coral);
+  color: #ffffff;
 }
-.choice[data-color="yellow"] .num { background: var(--c-yellow); }
-.choice[data-color="coral"]  .num { background: var(--c-coral); color: #fff; }
-.choice[data-color="blue"]   .num { background: var(--c-blue);  color: #fff; }
+.choice[data-color="yellow"] .num,
+.choice[data-color="coral"] .num,
+.choice[data-color="blue"] .num {
+  background: var(--c-coral);
+  color: #ffffff;
+}
 
 .choice .lead {
   font-family: "Roboto", sans-serif;
@@ -199,10 +201,6 @@ h1.title em {
 .choice .quote-text {
   color: var(--c-ink);
 }
-
-.choice[data-color="yellow"]:hover { border-color: var(--c-yellow); }
-.choice[data-color="coral"]:hover  { border-color: var(--c-coral); }
-.choice[data-color="blue"]:hover   { border-color: var(--c-blue); }
 
 /* ---------- Feedback panel ---------- */
 .feedback-stage {
@@ -231,11 +229,9 @@ h1.title em {
   content: "";
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 8px;
+  height: 6px;
+  background: var(--c-coral);
 }
-.feedback-card[data-color="yellow"]::before { background: var(--c-yellow); }
-.feedback-card[data-color="coral"]::before  { background: var(--c-coral); }
-.feedback-card[data-color="blue"]::before   { background: var(--c-blue); }
 
 .feedback-card .badge {
   display: inline-flex;
@@ -248,10 +244,9 @@ h1.title em {
   padding: 6px 12px;
   border-radius: 999px;
   margin-bottom: 16px;
+  background: var(--c-coral);
+  color: #ffffff;
 }
-.feedback-card[data-color="yellow"] .badge { background: rgba(255,190,80,.22); color: #8a5a00; }
-.feedback-card[data-color="coral"]  .badge { background: rgba(255,115,105,.18); color: #a8332a; }
-.feedback-card[data-color="blue"]   .badge { background: rgba(120,180,220,.22); color: #2e6c95; }
 
 .feedback-card h2 {
   font-family: "Roboto", sans-serif;
@@ -308,10 +303,8 @@ h1.title em {
   width: 8px;
   height: 8px;
   border-radius: 50%;
+  background: var(--c-coral);
 }
-.feedback-card[data-color="yellow"] ul li::before { background: var(--c-yellow); }
-.feedback-card[data-color="coral"]  ul li::before { background: var(--c-coral); }
-.feedback-card[data-color="blue"]   ul li::before { background: var(--c-blue); }
 
 /* ---------- Reveal (other options) ---------- */
 .reveal-section {
@@ -364,12 +357,11 @@ h1.title em {
   align-items: center;
   justify-content: center;
   font-family: "Roboto", sans-serif;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 15px;
+  background: var(--c-coral);
+  color: #ffffff;
 }
-.reveal-item[data-color="yellow"] .num-mini { background: var(--c-yellow); color: var(--c-ink); }
-.reveal-item[data-color="coral"]  .num-mini { background: var(--c-coral);  color: #fff; }
-.reveal-item[data-color="blue"]   .num-mini { background: var(--c-blue);   color: #fff; }
 
 .reveal-item .toggle-label {
   flex: 1;
@@ -422,10 +414,8 @@ h1.title em {
   top: 16px;
   width: 7px; height: 7px;
   border-radius: 50%;
+  background: var(--c-coral);
 }
-.reveal-item[data-color="yellow"] .body-inner ul li::before { background: var(--c-yellow); }
-.reveal-item[data-color="coral"]  .body-inner ul li::before { background: var(--c-coral); }
-.reveal-item[data-color="blue"]   .body-inner ul li::before { background: var(--c-blue); }
 
 /* ---------- Restart ---------- */
 .restart-row {
@@ -438,7 +428,7 @@ h1.title em {
   align-items: center;
   gap: 10px;
   background: var(--c-ink);
-  color: var(--c-paper);
+  color: #ffffff;
   border: none;
   padding: 14px 26px;
   border-radius: 999px;
@@ -448,7 +438,7 @@ h1.title em {
   cursor: pointer;
   transition: transform .15s ease, background .15s ease;
 }
-.restart:hover { transform: translateY(-1px); background: #2c3142; }
+.restart:hover { transform: translateY(-1px); background: var(--c-coral); }
 .restart svg { width: 16px; height: 16px; }
 
 /* ---------- Footer note ---------- */
@@ -459,33 +449,6 @@ h1.title em {
   text-align: center;
   font-style: italic;
   font-family: "Roboto", sans-serif;
-}
-
-/* ---------- Decorative shapes ---------- */
-.deco {
-  position: absolute;
-  pointer-events: none;
-  z-index: 0;
-}
-.shape-1 {
-  top: -10px;
-  right: -20px;
-  width: 90px;
-  height: 90px;
-  background: var(--c-blue);
-  border-radius: 50%;
-  opacity: .35;
-  filter: blur(2px);
-}
-.shape-2 {
-  bottom: -30px;
-  left: -10px;
-  width: 60px;
-  height: 60px;
-  background: var(--c-yellow);
-  border-radius: 14px;
-  transform: rotate(15deg);
-  opacity: .4;
 }
 
 /* ---------- Responsive ---------- */
@@ -621,7 +584,7 @@ function showFeedback(selectedId) {
                   ${o.label}
                   <em>${o.quote}</em>
                 </span>
-                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
               </button>
@@ -638,7 +601,7 @@ function showFeedback(selectedId) {
 
       <div class="restart-row">
         <button class="restart" id="restartBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 12a9 9 0 1 0 3-6.7"></path>
             <polyline points="3 4 3 10 9 10"></polyline>
           </svg>
